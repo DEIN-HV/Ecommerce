@@ -14,7 +14,7 @@ const Navbar = () => {
                 <Toolbar >
                     <Typography className={classes.title} variant="h6" color="inherit">
                         <img src={logo} alt="ecommerce" className={classes.image} height="25px" />
-                        Shoes Store
+                        DH Gaming Gear
                     </Typography>
 
                     <div className={classes.grow}></div>
