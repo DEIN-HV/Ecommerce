@@ -7,7 +7,7 @@ const Product = ({ product }) => {
     const classes = useStyle();
     return (
         <Card className={classes.root}>
-            <CardMedia className={classes.media} image={product.image} title={product.title}></CardMedia>
+            {/* <CardMedia className={classes.media} image={product.image} title={product.title}></CardMedia>
 
             <CardContent >
                 <div className={classes.cardContent}>
@@ -29,7 +29,7 @@ const Product = ({ product }) => {
                 <IconButton aria-label="Add to cart">
                     <ShoppingCart />
                 </IconButton>
-            </CardActions>
+            </CardActions> */}
 
         </Card>
     )

@@ -5,7 +5,7 @@ import { commerce } from './lib/commerce';
 
 const App = () => {
 
-    const [product, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         fetchData()
@@ -13,16 +13,13 @@ const App = () => {
 
     const fetchData = async () => {
         const { data } = await commerce.products.list();
-        setProduct(data);
+        setProducts(data);
         console.log(data)
     }
-
-
-
     return (
         <div>
             <Navbar />
-            <Products />
+            <Products products={products} />
         </div>
     )
 }
