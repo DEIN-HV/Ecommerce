@@ -6,7 +6,7 @@ import { classes } from 'istanbul-lib-coverage';
 import useStyles from './style'
 
 
-const Navbar = () => {
+const Navbar = ({ total_items }) => {
     const classes = useStyles();
     return (
         <>
@@ -20,7 +20,7 @@ const Navbar = () => {
                     <div className={classes.grow}></div>
                     <div className={classes.button}>
                         <IconButton aria-label="show cart items" color="inherit">
-                            <Badge badgeContent="2" color="secondary">
+                            <Badge badgeContent={total_items} color="secondary">
                                 <ShoppingCart />
                             </Badge>
                         </IconButton>
