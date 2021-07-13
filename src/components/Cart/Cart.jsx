@@ -11,7 +11,7 @@ function Cart({cart}) {
     const EmptyCart = () => (
         <Typography variant="subtitle1">You have no item in your cart</Typography>
     );
-s
+
     const FilledCart = () => (
         <>
             <Grid container spacing="3">
