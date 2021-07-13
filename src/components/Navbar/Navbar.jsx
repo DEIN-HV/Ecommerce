@@ -4,9 +4,11 @@ import { ShoppingCart } from '@material-ui/icons';
 import logo from '../../assets/commerce.png';
 import { classes } from 'istanbul-lib-coverage';
 import useStyles from './style'
+import { useEffect } from 'react';
 
 
 const Navbar = ({ total_items }) => {
+
     const classes = useStyles();
     return (
         <>
