@@ -5,6 +5,7 @@ import logo from '../../assets/commerce.png';
 import { classes } from 'istanbul-lib-coverage';
 import useStyles from './style'
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Navbar = ({ total_items }) => {
@@ -14,14 +15,14 @@ const Navbar = ({ total_items }) => {
         <>
             <AppBar className={classes.appBar} position="fixed" color="inherit">
                 <Toolbar >
-                    <Typography className={classes.title} variant="h6" color="inherit">
+                    <Typography component={Link} to="/" className={classes.title} variant="h6" color="inherit">
                         <img src={logo} alt="ecommerce" className={classes.image} height="25px" />
                         DH Gaming Gear
                     </Typography>
 
                     <div className={classes.grow}></div>
                     <div className={classes.button}>
-                        <IconButton aria-label="show cart items" color="inherit">
+                        <IconButton component={Link} to="/cart" aria-label="show cart items" color="inherit">
                             <Badge badgeContent={total_items} color="secondary">
                                 <ShoppingCart />
                             </Badge>

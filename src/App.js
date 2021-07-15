@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Navbar, Products } from './components';
 import Cart from './components/Cart/Cart';
 import { commerce } from './lib/commerce';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const App = () => {
 
@@ -35,11 +36,21 @@ const App = () => {
     }
 
     return (
-        <div>
-            <Cart cart={cart}/>
-            {/* <Navbar total_items={cart.total_items} />
-            <Products products={products} onAddToCart={hanleAddCart} /> */}
-        </div>
+        <BrowserRouter>
+            <div>
+                <Navbar total_items={cart.total_items} />
+                <Switch>
+                    <Route exact path="/">
+                        <Products products={products} onAddToCart={hanleAddCart} />
+                    </Route>
+                    <Route exact path="/cart">
+                        <Cart cart={cart} />
+                    </Route>
+                </Switch>
+
+            </div>
+        </BrowserRouter>
+
     )
 }
 
