@@ -1,36 +1,68 @@
-import React from 'react'
-import { Card, CardMedia, CardContent, CardActions, Typography, IconButton } from '@material-ui/core';
-import { AddShoppingCart, ShoppingCart } from '@material-ui/icons';
-import useStyle from './style';
+import React from "react";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Typography,
+  IconButton,
+  Button,
+} from "@material-ui/core";
+import { AddShoppingCart, ShoppingCart } from "@material-ui/icons";
+import useStyle from "./style";
 
 const Product = ({ product, onAddToCart }) => {
-    const classes = useStyle();
-    return (
-        <Card className={classes.root}>
-            <CardMedia className={classes.media} image={product.media.source} title={product.name}></CardMedia>
+  const classes = useStyle();
+  return (
+    <Card className={classes.root}>
+      <div className={classes.imageContainer}>
+        <CardMedia
+          className={classes.media}
+          image={product.media.source}
+          title={product.name}
+        ></CardMedia>
 
-            <CardContent >
-                <div className={classes.cardContent}>
-                    <Typography variant="h5" gutterBottom>
-                        {product.name}
-                    </Typography>
+        <div className={classes.detailButtonContainer}>
+          <Button
+            className={classes.detailButton}
+            type="button"
+            size="large"
+            color="secondary"
+            variant="outlined"
+          >
+            View detail
+          </Button>
+        </div>
+      </div>
 
-                    <Typography variant="h5" >
-                        {product.price.formatted_with_symbol}
-                    </Typography>
-                </div>
+      <CardContent>
+        <div className={classes.cardContent}>
+          <Typography variant="h5" gutterBottom>
+            {product.name}
+          </Typography>
 
-                <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant="body2" color="textSecondary" />
-            </CardContent>
+          <Typography variant="h5">
+            {product.price.formatted_with_symbol}
+          </Typography>
+        </div>
 
-            <CardActions disableSpacing className={classes.cardActions}>
-                <IconButton aria-label="Add to cart" onClick={() => onAddToCart(product.id, 1)}>
-                    <AddShoppingCart />
-                </IconButton>
-            </CardActions>
+        <Typography
+          dangerouslySetInnerHTML={{ __html: product.description }}
+          variant="body2"
+          color="textSecondary"
+        />
+      </CardContent>
 
-        </Card>
-    )
-}
+      <CardActions disableSpacing className={classes.cardActions}>
+        <IconButton
+          aria-label="Add to cart"
+          onClick={() => onAddToCart(product.id, 1)}
+        >
+          <AddShoppingCart />
+        </IconButton>
+      </CardActions>
+    </Card>
+  );
+};
 
-export default Product
+export default Product;

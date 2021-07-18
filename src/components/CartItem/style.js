@@ -7,7 +7,7 @@ export default makeStyles(() => ({
 
     cardContent: {
         display: 'flex',
-        justifyContent: 'sapce-between',
+        justifyContent:'space-between',
     },
 
     cardActions: {
@@ -16,7 +16,7 @@ export default makeStyles(() => ({
 
     buttons: {
         display: 'flex',
-        alignItems: 'canter',
+        alignItems: 'center',
         fontSize: 20,
     },
 
