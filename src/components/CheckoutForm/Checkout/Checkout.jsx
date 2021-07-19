@@ -29,14 +29,18 @@ function Checkout({ cart }) {
         type: "cart",
       });
       setCheckoutToken(token);
-      console.log("token;", res);
+      // console.log("token;", token);
     };
 
     fetchCheckoutToken();
-  }, []);
+  }, [cart]);
 
   const Form = () => {
-    return activeStep === 0 ? <AddressForm /> : <PaymentForm />;
+    return activeStep === 0 ? (
+      <AddressForm checkoutToken={checkoutToken} />
+    ) : (
+      <PaymentForm />
+    );
   };
 
   const Confirmation = () => <div>Confimation</div>;
@@ -56,7 +60,11 @@ function Checkout({ cart }) {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? <Confirmation /> : <Form />}
+          {activeStep === steps.length ? (
+            <Confirmation />
+          ) : (
+            checkoutToken && <Form />
+          )}
         </Paper>
       </main>
     </>

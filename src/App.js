@@ -24,7 +24,7 @@ const App = () => {
     const fetchCart = async () => {
         const cartInfo = await commerce.cart.retrieve();
         setCart(cartInfo);
-        // console.log('cart info:', cartInfo);
+        console.log('cart info:', cartInfo);
     }
 
     //increase cart item quantity when add new item
