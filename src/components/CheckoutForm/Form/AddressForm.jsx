@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import FormInput from "./components/CustomTextField";
 import { commerce } from "../../../lib/commerce";
 
-function AddressForm({ checkoutToken }) {
+function AddressForm({ checkoutToken, next }) {
   const [shippingCountries, setShippingCountries] = useState([]);
   const [shippingCountry, setShippingCountry] = useState("");
   const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
@@ -67,17 +67,21 @@ function AddressForm({ checkoutToken }) {
         Shipping address
       </Typography>
       <FormProvider {...methods}>
-        <form onSubmit="">
+        <form
+          onSubmit={methods.handleSubmit((data) =>
+            next({ ...data, shippingCountry, shippingSubdivision })
+          )}
+        >
           <Grid container spacing={3}>
             <FormInput required name="firstName" label="First name" />
-            <FormInput required name="address1" label="Address" />
+            <FormInput required name="phoneNumber" label="Phone number" />
             <FormInput required name="email" label="Email" />
-            <FormInput required name="city" label="City" />
+            <FormInput required name="address1" label="Address" />
             {/* <FormInput required name="zip" label="Zip / Postal code" /> */}
 
+            {/* Shipping country */}
             <Grid item xs={12} sm={6}>
-              {/* Shipping country */}
-              <InputLabel>Shipping country</InputLabel>
+              <InputLabel>Country</InputLabel>
               <Select
                 value={shippingCountry}
                 fullWidth
@@ -89,9 +93,11 @@ function AddressForm({ checkoutToken }) {
                   </MenuItem>
                 ))}
               </Select>
+            </Grid>
 
-              {/* Shipping subvision */}
-              <InputLabel>Shipping subvision</InputLabel>
+            {/* Shipping subvision */}
+            <Grid item xs={12} sm={6}>
+              <InputLabel>City</InputLabel>
               <Select
                 value={shippingSubdivision}
                 fullWidth
@@ -105,6 +111,23 @@ function AddressForm({ checkoutToken }) {
               </Select>
             </Grid>
           </Grid>
+
+          <br />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              component={Link}
+              to="/cart"
+              type="button"
+              variant="contained"
+              color="inherit"
+            >
+              Back to cart
+            </Button>
+
+            <Button type="submit" variant="contained" color="primary">
+              Next
+            </Button>
+          </div>
         </form>
       </FormProvider>
     </>
