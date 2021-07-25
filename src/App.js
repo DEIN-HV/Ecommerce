@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Navbar, Products, Checkout, Cart } from './components';
+import { Navbar, Products, Checkout, Cart, Auth } from './components';
 import { commerce } from './lib/commerce';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
@@ -8,6 +8,8 @@ const App = () => {
 
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState({});
+    const [order, setOrder] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         fetchData();
@@ -49,6 +51,22 @@ const App = () => {
         setCart(response.cart);
     }
 
+    const refreshCart = async () => {
+        const newCart = await commerce.cart.refresh();
+        setCart(newCart);
+    }
+
+    const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+        try {
+            const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
+            setOrder(incomingOrder);
+            refreshCart();
+        }
+        catch (error) {
+            setErrorMessage(error.data.error.message);
+        }
+    }
+
     return (
         <BrowserRouter>
             <div>
@@ -56,6 +74,9 @@ const App = () => {
                 <Switch>
                     <Route exact path="/">
                         <Products products={products} onAddToCart={hanleAddCart} />
+                    </Route>
+                    <Route exact path="/signin">
+                        <Auth />
                     </Route>
                     <Route exact path="/cart">
                         <Cart cart={cart}
@@ -65,7 +86,10 @@ const App = () => {
                         />
                     </Route>
                     <Route exact path="/checkout">
-                        <Checkout cart={cart} />
+                        <Checkout cart={cart}
+                            order={order}
+                            onCaptureCheckout={handleCaptureCheckout}
+                            errorMessage={errorMessage} />
                     </Route>
                 </Switch>
 

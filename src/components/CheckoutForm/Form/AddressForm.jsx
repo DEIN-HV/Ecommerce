@@ -75,7 +75,7 @@ function AddressForm({ checkoutToken, next }) {
           <Grid container spacing={3}>
             <FormInput required name="firstName" label="First name" />
             <FormInput required name="phoneNumber" label="Phone number" />
-            <FormInput required name="email" label="Email" />
+            <FormInput required name="email" label="Email" type="email" />
             <FormInput required name="address1" label="Address" />
             {/* <FormInput required name="zip" label="Zip / Postal code" /> */}
 

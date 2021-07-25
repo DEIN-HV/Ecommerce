@@ -18,7 +18,7 @@ import { commerce } from "../../../lib/commerce";
 
 const steps = ["Shipping address", "Payment detail"];
 
-function Checkout({ cart }) {
+function Checkout({ cart, order, onCaptureCheckout, errorMessage }) {
   const [activeStep, setActiveStep] = useState(0);
   const classes = useStyle();
   const [checkoutToken, setCheckoutToken] = useState(null);
@@ -49,7 +49,12 @@ function Checkout({ cart }) {
     return activeStep === 0 ? (
       <AddressForm checkoutToken={checkoutToken} next={next} />
     ) : (
-      <PaymentForm shippingData={shippingData} />
+      <PaymentForm
+        shippingData={shippingData}
+        checkoutToken={checkoutToken}
+        onCaptureCheckout={onCaptureCheckout}
+        onNextStep={nextStep}
+      />
     );
   };
 
