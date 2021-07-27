@@ -10,13 +10,22 @@ import {
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import logo from "../../assets/commerce.png";
-import { classes } from "istanbul-lib-coverage";
 import useStyles from "./style";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = ({ total_items }) => {
+const Navbar = ({ total_items, isSignedIn, user }) => {
   const classes = useStyles();
+
+  const Username = () => {
+    if (!user && isSignedIn == true) return "loading...";
+    return (
+      <NavLink className={classes.link} exact to="/signin">
+        {!isSignedIn ? "Signin" : user.displayName}
+      </NavLink>
+    );
+  };
+
   return (
     <>
       <AppBar className={classes.appBar} position="fixed" color="inherit">
@@ -39,9 +48,7 @@ const Navbar = ({ total_items }) => {
 
           <div className={classes.grow}></div>
 
-          <NavLink exact to="/signin">
-            Sign in
-          </NavLink>
+          <Username />
 
           <div className={classes.button}>
             <IconButton

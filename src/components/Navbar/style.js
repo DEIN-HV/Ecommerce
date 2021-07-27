@@ -11,6 +11,15 @@ export default makeStyles((theme) => ({
             marginLeft: drawerWidth,
         },
     },
+    link: {
+        fontSize: 20,
+        cursor: 'pointer',
+        color: 'blue',
+
+        '&:hover': {
+            color: '#000033',
+        }
+    },
     title: {
         flexGrow: 1,
         alignItems: 'center',

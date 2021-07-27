@@ -3,8 +3,36 @@ import React, { useEffect, useState } from 'react'
 import { Navbar, Products, Checkout, Cart, Auth } from './components';
 import { commerce } from './lib/commerce';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
 
 const App = () => {
+
+    // Configure Firebase.
+    const config = {
+        apiKey: 'AIzaSyBlqvwn--P4hemu_TG1rWIyA49EuN1H8kU',
+        authDomain: 'ecommerce-f2c5a.firebaseapp.com',
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(config);
+    } else {
+        firebase.app();
+    }
+
+    // Listen to the Firebase Auth state and set the local state.
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+            setIsSignedIn(!!user);
+            setUser(user);
+
+            console.log('user:', user);
+        });
+        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    }, []);
 
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState({});
@@ -70,13 +98,13 @@ const App = () => {
     return (
         <BrowserRouter>
             <div>
-                <Navbar total_items={cart.total_items} />
+                <Navbar total_items={cart.total_items} isSignedIn={isSignedIn} user={user} />
                 <Switch>
                     <Route exact path="/">
                         <Products products={products} onAddToCart={hanleAddCart} />
                     </Route>
                     <Route exact path="/signin">
-                        <Auth />
+                        <Auth isSignedIn={isSignedIn} />
                     </Route>
                     <Route exact path="/cart">
                         <Cart cart={cart}
