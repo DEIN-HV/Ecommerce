@@ -38,9 +38,11 @@ const App = () => {
     const [cart, setCart] = useState({});
     const [order, setOrder] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+    const [categories, SetCategories] = useState({});
 
     useEffect(() => {
         fetchData();
+        fetchCategory();
         fetchCart();
     }, []);
 
@@ -48,6 +50,12 @@ const App = () => {
         const { data } = await commerce.products.list();
         setProducts(data);
         // console.log(data)
+    }
+
+    const fetchCategory = async () => {
+        const { data } = await commerce.categories.list();
+        SetCategories(data);
+        console.log('category:', data);
     }
 
     //render cart item quantity in load page
@@ -101,7 +109,7 @@ const App = () => {
                 <Navbar total_items={cart.total_items} isSignedIn={isSignedIn} user={user} />
                 <Switch>
                     <Route exact path="/">
-                        <Products products={products} onAddToCart={hanleAddCart} />
+                        <Products products={products} onAddToCart={hanleAddCart} categories={categories} />
                     </Route>
                     <Route exact path="/signin">
                         <Auth isSignedIn={isSignedIn} />
