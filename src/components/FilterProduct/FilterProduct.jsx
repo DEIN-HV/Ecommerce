@@ -11,26 +11,39 @@ const FilterProduct = ({ categories }) => {
     const defaultCategory = { id: 1, name: "All" };
 
     const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
+    const [keyWord, setKeyWord] = useState('');
+    const [resultMessage, setResultMessage] = useState('');
 
-    const handleOnchange = (e) => {
+    const handleSelectChange = (e) => {
         const { value } = e.target;
         const category = categories.find((category) => category.id == value);
         setSelectedCategory(category);
     }
 
-    if (!categories) return "loading...";
+    const handleInputChange = (e) => {
+
+        setKeyWord(e.target.value);
+        console.log(keyWord);
+
+        if (keyWord) setResultMessage('');
+    }
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (!keyWord) setResultMessage("You have no enter a product name");
+    }
 
     return (
         <div className={classes.filterBar}>
             <Container>
-                <Paper component="form" className={classes.root} onSubmit={() => { }}>
+                <Paper component="form" className={classes.root} onSubmit={handleSearch}>
                     <SelectCategory
-                        categories={categories}
+                        categories={[defaultCategory, ...categories]}
                         selectedCategory={selectedCategory}
-                        onChange={() => handleOnchange} />
+                        onChange={handleSelectChange} />
                     <InputBase
                         className={classes.input}
-                        onchange={() => { }}
+                        onChange={handleInputChange}
                         placeholder="Search for product"
                         inputProps={{ "aria-label": "Search for a product" }}
                     />
@@ -38,6 +51,8 @@ const FilterProduct = ({ categories }) => {
                         <Search />
                     </IconButton>
                 </Paper>
+
+                {resultMessage && <p className={classes.resultMessage}>{resultMessage}</p>}
             </Container>
 
         </div>

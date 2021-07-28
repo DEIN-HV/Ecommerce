@@ -19,4 +19,6 @@ export default makeStyles((theme) => ({
         flex: 1,
         marginLeft: 10,
     },
+
+    resultMessage: {},
 }));

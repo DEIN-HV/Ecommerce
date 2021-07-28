@@ -7,7 +7,8 @@ import FilterProduct from "../FilterProduct/FilterProduct";
 const Products = ({ products, onAddToCart, categories }) => {
   const classes = useStyle();
 
-  console.log('categories', categories);
+  //console.log('categories', categories);
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />

@@ -35,10 +35,10 @@ const App = () => {
     }, []);
 
     const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState({});
+    const [cart, setCart] = useState([]);
     const [order, setOrder] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
-    const [categories, SetCategories] = useState({});
+    const [categories, SetCategories] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -49,7 +49,7 @@ const App = () => {
     const fetchData = async () => {
         const { data } = await commerce.products.list();
         setProducts(data);
-        // console.log(data)
+        console.log('product', products)
     }
 
     const fetchCategory = async () => {
