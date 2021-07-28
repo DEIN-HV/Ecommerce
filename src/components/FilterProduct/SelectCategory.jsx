@@ -4,10 +4,10 @@ import useStyle from './style';
 
 const SelectCategory = ({ categories, selectedCategory, onChange }) => {
 
-    console.log('selectedCategory:', selectedCategory);
-    console.log('categories:', categories);
-
     const classes = useStyle();
+
+    if (!categories) return "loading...";
+
     return (
         <FormControl className={classes.formControl}>
             <Select value={selectedCategory.id} onChange={onChange}>
