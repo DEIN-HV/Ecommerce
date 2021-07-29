@@ -21,4 +21,13 @@ export default makeStyles((theme) => ({
     },
 
     resultMessage: {},
+
+    formControl: {
+        padding: '0px 20px 0 20px',
+        textAlign: 'center'
+    },
+
+    selectItem: {
+        padding: '0px 10px 0 10px',
+    }
 }));

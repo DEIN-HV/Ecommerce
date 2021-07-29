@@ -14,7 +14,7 @@ import useStyles from "./style";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = ({ total_items, isSignedIn, user }) => {
+const Navbar = ({ total_items, isSignedIn, user, onRefreshProduct, setSearchResult }) => {
   const classes = useStyles();
 
   const Username = () => {
@@ -36,6 +36,7 @@ const Navbar = ({ total_items, isSignedIn, user }) => {
             className={classes.title}
             variant="h6"
             color="inherit"
+            onClick={onRefreshProduct}
           >
             <img
               src={logo}
