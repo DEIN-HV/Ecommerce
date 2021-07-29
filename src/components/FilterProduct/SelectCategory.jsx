@@ -10,7 +10,7 @@ const SelectCategory = ({ categories, selectedCategory, onChange }) => {
 
     return (
         <FormControl className={classes.formControl}>
-            <Select value={selectedCategory.id} onChange={onChange}>
+            <Select className={classes.selectItem} value={selectedCategory.id} onChange={onChange}>
                 {categories.map((category) => (
                     <MenuItem key={category.id} value={category.id}>
                         {category.name}

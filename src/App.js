@@ -39,6 +39,7 @@ const App = () => {
     const [order, setOrder] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const [categories, SetCategories] = useState([]);
+    const [isLoadSceen, setIsLoadSceen] = useState(true)
 
     useEffect(() => {
         fetchData();
@@ -103,13 +104,23 @@ const App = () => {
         }
     }
 
+    const handleClearSearch = () => {
+        setIsLoadSceen(true);
+    }
+
     return (
         <BrowserRouter>
             <div>
-                <Navbar total_items={cart.total_items} isSignedIn={isSignedIn} user={user} />
+                <Navbar total_items={cart.total_items}
+                    isSignedIn={isSignedIn} user={user}
+                    onRefreshProduct={handleClearSearch} />
                 <Switch>
                     <Route exact path="/">
-                        <Products products={products} onAddToCart={hanleAddCart} categories={categories} />
+                        <Products products={products}
+                            onAddToCart={hanleAddCart}
+                            categories={categories}
+                            isLoadSceen={isLoadSceen}
+                            setIsLoadSceen={setIsLoadSceen} />
                     </Route>
                     <Route exact path="/signin">
                         <Auth isSignedIn={isSignedIn} />
