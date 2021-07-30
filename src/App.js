@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
-import { Navbar, Products, Checkout, Cart, Auth } from './components';
+import { Navbar, Products, Checkout, Cart, Auth, Footer } from './components';
 import { commerce } from './lib/commerce';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -39,13 +38,36 @@ const App = () => {
     const [order, setOrder] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const [categories, SetCategories] = useState([]);
-    const [isLoadSceen, setIsLoadSceen] = useState(true)
+    const [isLoadSceen, setIsLoadSceen] = useState(true);
+    const [prouductByCategory, setProuductByCategory] = useState([]);
 
     useEffect(() => {
         fetchData();
         fetchCategory();
         fetchCart();
+        fetchProducts();
+
     }, []);
+
+    const fetchProducts = async () => {
+        const { data: products } = await commerce.products.list();
+        const { data: categoriesData } = await commerce.categories.list();
+
+        const fetchProductPerCategory = categoriesData.reduce((acc, category) => {
+            return ([
+                ...acc,
+                {
+                    ...category,
+                    productData: products.filter((product) =>
+                        product.categories.find((cat) => cat.id === category.id)
+                    ),
+                }
+            ])
+        }, []);
+        setProuductByCategory(fetchProductPerCategory);
+        //console.log(prouductByCategory);
+    }
+
 
     const fetchData = async () => {
         const { data } = await commerce.products.list();
@@ -120,7 +142,8 @@ const App = () => {
                             onAddToCart={hanleAddCart}
                             categories={categories}
                             isLoadSceen={isLoadSceen}
-                            setIsLoadSceen={setIsLoadSceen} />
+                            setIsLoadSceen={setIsLoadSceen}
+                            prouductByCategory={prouductByCategory} />
                     </Route>
                     <Route exact path="/signin">
                         <Auth isSignedIn={isSignedIn} />
@@ -139,6 +162,7 @@ const App = () => {
                             errorMessage={errorMessage} />
                     </Route>
                 </Switch>
+                {/* <Footer /> */}
 
             </div>
         </BrowserRouter>

@@ -19,7 +19,7 @@ function Cart({ cart, onUpdateCartQty, onRemoveCartItem, onEmptyCart }) {
   );
 
   const FilledCart = () => (
-    <>
+    <Container>
       <Grid container spacing={3}>
         {cart.line_items.map((item) => (
           <Grid item xs={12} sm={6} md={4} key={item.id}>
@@ -60,7 +60,7 @@ function Cart({ cart, onUpdateCartQty, onRemoveCartItem, onEmptyCart }) {
           </Button>
         </div>
       </div>
-    </>
+    </Container>
   );
 
   if (!cart.line_items) return "loading...";

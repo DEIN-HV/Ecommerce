@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Container, Grid, Typography } from "@material-ui/core";
 import Product from "../Product/Product";
 import useStyle from "./style";
 import FilterProduct from "../FilterProduct/FilterProduct";
+import { Category } from "@material-ui/icons";
 
-const Products = ({ products, onAddToCart, categories, isLoadSceen, setIsLoadSceen }) => {
+const Products = ({ products, onAddToCart, categories, isLoadSceen, setIsLoadSceen, prouductByCategory }) => {
   const classes = useStyle();
 
+  console.log(prouductByCategory);
 
+  if (!prouductByCategory) return "Loading..."
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
@@ -18,15 +21,25 @@ const Products = ({ products, onAddToCart, categories, isLoadSceen, setIsLoadSce
         setIsLoadSceen={setIsLoadSceen} />
 
       {isLoadSceen &&
-        <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={4}>
-            {products.map((product) => (
-              <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                <Product product={product} onAddToCart={onAddToCart} />
+        <Container>
+          {prouductByCategory.map((category) => (
+            <>
+              <div className={classes.productPerCategory}>
+                <Typography variant="h5" className={classes.productPerCategoryTitle}>{category.name} </Typography>
+              </div>
+
+              <Grid item xs={12}>
+                <Grid container justifyContent="left" spacing={4}>
+                  {category.productData.map((product) => (
+                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                      <Product product={product} onAddToCart={onAddToCart} />
+                    </Grid>
+                  ))}
+                </Grid>
               </Grid>
-            ))}
-          </Grid>
-        </Grid>
+            </>
+          ))}
+        </Container>
       }
     </main >
   );

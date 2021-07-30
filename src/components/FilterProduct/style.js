@@ -9,7 +9,7 @@ export default makeStyles((theme) => ({
 
     },
     filterBar: {
-        margin: '20px 0 20px 0',
+        margin: '10px 0 0 0',
 
     },
     link: {
@@ -20,7 +20,13 @@ export default makeStyles((theme) => ({
         marginLeft: 10,
     },
 
-    resultMessage: {},
+    resultMessage: {
+        marginTop: 20,
+    },
+
+    searchReult: {
+        marginTop: 30,
+    },
 
     formControl: {
         padding: '0px 20px 0 20px',

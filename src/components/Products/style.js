@@ -11,4 +11,17 @@ export default makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
+
+    productPerCategory: {
+        width: '100%',
+        margin: '30px 0 20px 0',
+        backgroundColor: '#DD4132',
+        borderRadius: 5,
+        color: 'white',
+    },
+
+    productPerCategoryTitle: {
+        padding: '8px 0 8px 20px',
+        fontWeight: 700,
+    }
 }))
