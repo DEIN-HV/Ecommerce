@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navbar, Products, Checkout, Cart, Auth, Footer } from './components';
+import { Navbar, Products, Checkout, Cart, Auth, Footer, ProductDetail } from './components';
 import { commerce } from './lib/commerce';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -28,7 +28,7 @@ const App = () => {
             setIsSignedIn(!!user);
             setUser(user);
 
-            console.log('user:', user);
+            //console.log('user:', user);
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
@@ -39,10 +39,10 @@ const App = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [categories, SetCategories] = useState([]);
     const [isLoadSceen, setIsLoadSceen] = useState(true);
-    const [prouductByCategory, setProuductByCategory] = useState([]);
+    const [prouductPerCategory, setProuductPerCategory] = useState([]);
 
     useEffect(() => {
-        fetchData();
+        // fetchData();
         fetchCategory();
         fetchCart();
         fetchProducts();
@@ -53,26 +53,33 @@ const App = () => {
         const { data: products } = await commerce.products.list();
         const { data: categoriesData } = await commerce.categories.list();
 
+        //prouductPerCategory
         const fetchProductPerCategory = categoriesData.reduce((acc, category) => {
             return ([
                 ...acc,
                 {
                     ...category,
-                    productData: products.filter((product) =>
-                        product.categories.find((cat) => cat.id === category.id)
-                    ),
+                    productData: products.reduce((temp, product) => {
+                        if (temp.length < 4 && product.categories.find((cat) => cat.id === category.id))
+                            temp.push(product);
+                        return temp;
+                    }, [])
+
                 }
             ])
         }, []);
-        setProuductByCategory(fetchProductPerCategory);
-        //console.log(prouductByCategory);
+        setProuductPerCategory(fetchProductPerCategory);
+        //console.log('fetchProductPerCategory', fetchProductPerCategory);
     }
 
-
     const fetchData = async () => {
-        const { data } = await commerce.products.list();
+        const { data } = await commerce.products.list({
+            category_slug: ['monitor'],
+            limit: 1,
+            page: 1,
+        });
         setProducts(data);
-        console.log('product', products)
+        console.log('page1', data)
     }
 
     const fetchCategory = async () => {
@@ -143,8 +150,9 @@ const App = () => {
                             categories={categories}
                             isLoadSceen={isLoadSceen}
                             setIsLoadSceen={setIsLoadSceen}
-                            prouductByCategory={prouductByCategory} />
+                            prouductPerCategory={prouductPerCategory} />
                     </Route>
+
                     <Route exact path="/signin">
                         <Auth isSignedIn={isSignedIn} />
                     </Route>
@@ -161,10 +169,23 @@ const App = () => {
                             onCaptureCheckout={handleCaptureCheckout}
                             errorMessage={errorMessage} />
                     </Route>
-                </Switch>
-                {/* <Footer /> */}
 
+                    <Route exact path="/product-detail/:id">
+                        <ProductDetail onAddToCart={hanleAddCart} />
+                    </Route>
+
+                    <Route exact path="/:slug">
+                        <Products products={products}
+                            onAddToCart={hanleAddCart}
+                            categories={categories}
+                            isLoadSceen={isLoadSceen}
+                            setIsLoadSceen={setIsLoadSceen}
+                            prouductPerCategory={prouductPerCategory} />
+                    </Route>
+                </Switch>
+                <Footer />
             </div>
+
         </BrowserRouter>
 
     )

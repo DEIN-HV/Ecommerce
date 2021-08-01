@@ -13,8 +13,11 @@ export default makeStyles((theme) => ({
     },
 
     productPerCategory: {
+        display: 'flex',
+        justifyContent: 'space-between',
+
         width: '100%',
-        margin: '30px 0 20px 0',
+        margin: '30px 0 5px 0',
         backgroundColor: '#DD4132',
         borderRadius: 5,
         color: 'white',
@@ -23,5 +26,17 @@ export default makeStyles((theme) => ({
     productPerCategoryTitle: {
         padding: '8px 0 8px 20px',
         fontWeight: 700,
-    }
+    },
+
+    viewLink: {
+        padding: '10px 20px 8px 0',
+        fontSize: 18,
+        fontWeight: 700,
+        color: 'white',
+        cursor: 'pointer',
+
+        '&:hover': {
+            opacity: 0.5,
+        }
+    },
 }))

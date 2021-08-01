@@ -34,6 +34,12 @@ export default makeStyles(() => ({
         transition: 'all 0.75s ease 0s',
     },
 
+    title: {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+    },
+
     detailButtonContainer: {
         width: '100%',
         height: '100%',

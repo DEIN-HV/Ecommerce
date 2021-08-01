@@ -4,6 +4,7 @@ import useStyle from "./style";
 import { useEffect } from "react";
 import CartItem from "../CartItem/CartItem";
 import { Link } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
 
 function Cart({ cart, onUpdateCartQty, onRemoveCartItem, onEmptyCart }) {
   const classes = useStyle();
@@ -63,7 +64,7 @@ function Cart({ cart, onUpdateCartQty, onRemoveCartItem, onEmptyCart }) {
     </Container>
   );
 
-  if (!cart.line_items) return "loading...";
+  if (!cart.line_items) return <Spinner />;
 
   return (
     <Container className={classes.cartContainer}>

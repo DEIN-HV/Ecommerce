@@ -1,25 +1,25 @@
 import React from "react";
 import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Badge,
-    MenuItem,
-    Menu,
-    Typography,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Badge,
+  MenuItem,
+  Menu,
+  Typography,
 } from "@material-ui/core";
 import useStyles from "./style";
 
 const Footer = () => {
+  const classes = useStyles();
 
-    const classes = useStyles();
-    return (
-        <AppBar className={classes.appBar} position="fixed" color="inherit">
-            <Toolbar>
-                <Typography variant="h6">@All coppy right reserved to DH gaming gear 2021 </Typography>
-            </Toolbar>
-        </AppBar>
-    )
-}
+  const date = new Date();
+  const fullYear = date.getFullYear();
+  return (
+    <div className={classes.footer}>
+      <p>All &copy; copy rights are reserved to DH Gaming Gear {fullYear}</p>
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;

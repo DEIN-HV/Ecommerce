@@ -8,43 +8,49 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { AddShoppingCart, ShoppingCart } from "@material-ui/icons";
 import useStyle from "./style";
 
 const Product = ({ product, onAddToCart }) => {
   const classes = useStyle();
   return (
-    <Card className={classes.root}>
-      <div className={classes.imageContainer}>
-        <CardMedia
-          className={classes.media}
-          image={product.media.source}
-          title={product.name}
-        ></CardMedia>
+    <div className={classes.root}>
+      <Link
+        to={`product-detail/${product.id}`}
+        className={classes.imageContainer}
+      >
+        <div className={classes.imageContainer}>
+          <CardMedia
+            className={classes.media}
+            image={product.media.source}
+            title={product.name}
+          ></CardMedia>
 
-        <div className={classes.detailButtonContainer}>
-          <Button
-            className={classes.detailButton}
-            type="button"
-            size="large"
-            color="secondary"
-            variant="outlined"
-          >
-            View detail
-          </Button>
+          <div className={classes.detailButtonContainer}>
+            <Button
+              className={classes.detailButton}
+              type="button"
+              size="large"
+              color="secondary"
+              variant="outlined"
+            >
+              View detail
+            </Button>
+          </div>
         </div>
-      </div>
+      </Link>
 
       <CardContent>
-        <div className={classes.cardContent}>
-          <Typography variant="h5" gutterBottom>
-            {product.name}
-          </Typography>
+        {/* <div className={classes.cardContent}> */}
+        <Typography className={classes.title} variant="h6" gutterBottom>
+          {product.name}
+        </Typography>
 
-          <Typography variant="h5">
-            {product.price.formatted_with_symbol}
-          </Typography>
-        </div>
+        <Typography variant="h6">
+          {product.price.formatted_with_symbol}
+        </Typography>
+        {/* </div> */}
 
         <Typography
           dangerouslySetInnerHTML={{ __html: product.description }}
@@ -61,7 +67,7 @@ const Product = ({ product, onAddToCart }) => {
           <AddShoppingCart />
         </IconButton>
       </CardActions>
-    </Card>
+    </div>
   );
 };
 
