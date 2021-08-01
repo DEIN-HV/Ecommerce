@@ -13,12 +13,19 @@ import logo from "../../assets/commerce.png";
 import useStyles from "./style";
 import { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
 
-const Navbar = ({ total_items, isSignedIn, user, onRefreshProduct, setSearchResult }) => {
+const Navbar = ({
+  total_items,
+  isSignedIn,
+  user,
+  onRefreshProduct,
+  setSearchResult,
+}) => {
   const classes = useStyles();
 
   const Username = () => {
-    if (!user && isSignedIn == true) return "loading...";
+    if (!user && isSignedIn == true) return <Spinner />;
     return (
       <NavLink className={classes.link} exact to="/signin">
         {!isSignedIn ? "Signin" : user.displayName}
@@ -68,5 +75,4 @@ const Navbar = ({ total_items, isSignedIn, user, onRefreshProduct, setSearchResu
     </>
   );
 };
-
 export default Navbar;
