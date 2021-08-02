@@ -7,7 +7,7 @@ import { Category } from "@material-ui/icons";
 import Spinner from "../Spinner/Spinner";
 import { Link, useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
-import Pagination from '../Pagination/Pagination'
+import Pagination from "../Pagination/Pagination";
 
 const Products = ({
   products,
@@ -19,9 +19,9 @@ const Products = ({
 }) => {
   const classes = useStyle();
   const [productOneCategory, setProductOneCategory] = useState([]);
-  const [categoryName, setCategoryName] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(2)
+  const [categoryName, setCategoryName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(4);
 
   const { slug } = useParams();
 
@@ -29,30 +29,33 @@ const Products = ({
     const { data } = await commerce.products.list({
       category_slug: slug,
       limit: limit,
-      page: page,
-    })
-    setProductOneCategory(data)
+      page: currentPage,
+    });
+    setProductOneCategory(data);
     //console.log(data.length);
-  }
+  };
 
   //get category name by slug
   const getCategoryName = () => {
     categories.filter((category) => {
       if (category.slug === slug) setCategoryName(category.name);
     });
-  }
+  };
 
-  const handlePage = (param) => {
-    setPage(page + param);
-  }
+  const handleChangePageNumber = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleChangePage = (param) => {
+    setCurrentPage(currentPage + param);
+  };
 
   useEffect(() => {
     if (slug) {
       FetchProductOneCategory();
       getCategoryName();
-    };
-  }, [slug, page])
-
+    }
+  }, [slug, currentPage]);
 
   if (!prouductPerCategory) return <Spinner />;
   if (!productOneCategory || !prouductPerCategory) return <Spinner />;
@@ -69,7 +72,7 @@ const Products = ({
       />
 
       {/* View product per category */}
-      {(isLoadSceen && !slug) && (
+      {isLoadSceen && !slug && (
         <Container>
           {prouductPerCategory.map((category) => (
             <div key={category.id}>
@@ -101,7 +104,7 @@ const Products = ({
       )}
 
       {/* View product by a category */}
-      {(isLoadSceen && slug) && (
+      {isLoadSceen && slug && (
         <Container>
           <div key={slug}>
             <div className={classes.productPerCategory}>
@@ -123,10 +126,14 @@ const Products = ({
             </Grid>
           </div>
 
-          <Button onClick={() => { handlePage(-1) }}>Previous</Button>
-          <Button onClick={() => { handlePage(1) }}>Next</Button>
-          <Pagination slug={slug} limit={limit} />
-        </Container >
+          <Pagination
+            slug={slug}
+            limit={limit}
+            currentPage={currentPage}
+            onChangePageNumber={handleChangePageNumber}
+            onChangePage={handleChangePage}
+          />
+        </Container>
       )}
     </main>
   );

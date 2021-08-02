@@ -1,50 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { commerce } from "../../lib/commerce";
 
-import useStyle from './style';
+import useStyle from "./style";
 
-const Pagination = ({ slug, limit }) => {
+const Pagination = ({
+  slug,
+  limit,
+  onChangePageNumber,
+  currentPage,
+  onChangePage,
+}) => {
+  const classes = useStyle();
 
-    const classes = useStyle();
+  const [dataLength, setDataLength] = useState(0);
 
-    const [currentPage, setcurrentPage] = useState(1);
-    const [dataLength, setDataLength] = useState(0);
+  const fetchProductOneCategory = async () => {
+    const { data } = await commerce.products.list({
+      category_slug: slug,
+    });
+    setDataLength(data.length);
+  };
 
-    const fetchProductOneCategory = async () => {
-        const { data } = await commerce.products.list({
-            category_slug: slug,
-        })
-        setDataLength(data.length);
-    }
+  const totalPage = Math.ceil(dataLength / limit);
 
-    const totalPage = Math.ceil(dataLength / limit);
+  const pages = [];
+  for (let i = 1; i <= totalPage; i++) {
+    pages.push(i);
+  }
 
-    const pages = [];
-    for (let i = 1; i <= totalPage; i++) {
-        pages.push(i);
-    }
+  console.log(pages);
 
-    console.log(pages);
+  const RenderPageNumbers = () => (
+    <ul className={classes.ulPage}>
+      <li
+        className={classes.liPage}
+        onClick={() => {
+          onChangePage(-1);
+        }}
+      >
+        Prev
+      </li>
+      {pages.map((page) => (
+        <li
+          className={
+            currentPage === page ? classes.liPageActive : classes.liPage
+          }
+          key={page}
+          onClick={() => {
+            onChangePageNumber(page);
+          }}
+        >
+          {page}
+        </li>
+      ))}
 
-    const RenderPageNumbers = () => (
-        <ul className={classes.ulPage}>
-            {pages.map((page) => (
-                <li className={classes.liPage} key={page}>
-                    {page}
-                </li>
-            ))}
-        </ul>
-    )
+      <li
+        className={classes.liPage}
+        onClick={() => {
+          onChangePage(1);
+        }}
+      >
+        Next
+      </li>
+    </ul>
+  );
 
-    useEffect(() => {
-        fetchProductOneCategory();
-    }, [slug])
+  useEffect(() => {
+    fetchProductOneCategory();
+  }, [slug]);
 
-    return (
-        <div className={classes.pagination}>
-            <RenderPageNumbers />
-        </div>
-    )
-}
+  return (
+    <div className={classes.pagination}>
+      <RenderPageNumbers />
+    </div>
+  );
+};
 
-export default Pagination
+export default Pagination;

@@ -15,6 +15,14 @@ export default makeStyles((theme) => ({
         padding: 10,
         border: '1px solid black',
         cursor: 'pointer',
+    },
+
+    liPageActive: {
+        padding: 10,
+        border: '1px solid black',
+        cursor: 'pointer',
+        backgroundColor: 'blue',
+        color: 'white',
     }
 
 }))
