@@ -59,12 +59,24 @@ export default makeStyles(() => ({
     },
 
     cardContent: {
-        display: 'flex',
-        justifyContent: 'space-between',
+        height: 90,
     },
 
     cardActions: {
         display: 'flex',
         justifyContent: 'flex-end',
+        height: 30,
+
     },
+
+    description: {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+    },
+
+    MuiCardContentRoot: {
+        paddingLeft: 20,
+
+    }
 }));

@@ -15,7 +15,7 @@ import useStyle from "./style";
 const Product = ({ product, onAddToCart }) => {
   const classes = useStyle();
   return (
-    <div className={classes.root}>
+    <Card className={classes.root}>
       <Link
         to={`product-detail/${product.id}`}
         className={classes.imageContainer}
@@ -41,8 +41,7 @@ const Product = ({ product, onAddToCart }) => {
         </div>
       </Link>
 
-      <CardContent>
-        {/* <div className={classes.cardContent}> */}
+      <CardContent className={classes.cardContent}>
         <Typography className={classes.title} variant="h6" gutterBottom>
           {product.name}
         </Typography>
@@ -50,9 +49,8 @@ const Product = ({ product, onAddToCart }) => {
         <Typography variant="h6">
           {product.price.formatted_with_symbol}
         </Typography>
-        {/* </div> */}
 
-        <Typography
+        <Typography className={classes.description}
           dangerouslySetInnerHTML={{ __html: product.description }}
           variant="body2"
           color="textSecondary"
@@ -62,12 +60,13 @@ const Product = ({ product, onAddToCart }) => {
       <CardActions disableSpacing className={classes.cardActions}>
         <IconButton
           aria-label="Add to cart"
+          color="secondary"
           onClick={() => onAddToCart(product.id, 1)}
         >
           <AddShoppingCart />
         </IconButton>
       </CardActions>
-    </div>
+    </Card>
   );
 };
 

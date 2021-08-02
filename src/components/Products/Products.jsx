@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@material-ui/core";
 import Product from "../Product/Product";
 import useStyle from "./style";
 import FilterProduct from "../FilterProduct/FilterProduct";
@@ -7,6 +7,7 @@ import { Category } from "@material-ui/icons";
 import Spinner from "../Spinner/Spinner";
 import { Link, useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
+import Pagination from '../Pagination/Pagination'
 
 const Products = ({
   products,
@@ -17,30 +18,44 @@ const Products = ({
   prouductPerCategory,
 }) => {
   const classes = useStyle();
-  //const [isProductPerCategory, setIsProductPerCategory] = useState(false);
-  //const [categorySlug, setCategorySlug] = useState("");
   const [productOneCategory, setProductOneCategory] = useState([]);
+  const [categoryName, setCategoryName] = useState('');
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(2)
+
   const { slug } = useParams();
-  console.log(slug);
 
-  // const fetchProducts = async () => {
-  //   const { data: products } = await commerce.products.list();
-  //   const { data: categoriesData } = await commerce.categories.list();
+  const FetchProductOneCategory = async () => {
+    const { data } = await commerce.products.list({
+      category_slug: slug,
+      limit: limit,
+      page: page,
+    })
+    setProductOneCategory(data)
+    //console.log(data.length);
+  }
 
-  //   //View all product
-  //   const fetchProductOneCategory = categoriesData.filter((category) => (
+  //get category name by slug
+  const getCategoryName = () => {
+    categories.filter((category) => {
+      if (category.slug === slug) setCategoryName(category.name);
+    });
+  }
 
-  //   ))
+  const handlePage = (param) => {
+    setPage(page + param);
+  }
 
-  //   setProductOneCategory(fetchProductOneCategory);
-  //   console.log("fetchProductOneCategory", fetchProductOneCategory);
-  // };
+  useEffect(() => {
+    if (slug) {
+      FetchProductOneCategory();
+      getCategoryName();
+    };
+  }, [slug, page])
 
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
 
   if (!prouductPerCategory) return <Spinner />;
+  if (!productOneCategory || !prouductPerCategory) return <Spinner />;
 
   return (
     <main className={classes.content}>
@@ -53,7 +68,8 @@ const Products = ({
         setIsLoadSceen={setIsLoadSceen}
       />
 
-      {isLoadSceen && (
+      {/* View product per category */}
+      {(isLoadSceen && !slug) && (
         <Container>
           {prouductPerCategory.map((category) => (
             <div key={category.id}>
@@ -82,6 +98,35 @@ const Products = ({
             </div>
           ))}
         </Container>
+      )}
+
+      {/* View product by a category */}
+      {(isLoadSceen && slug) && (
+        <Container>
+          <div key={slug}>
+            <div className={classes.productPerCategory}>
+              <Typography
+                variant="h5"
+                className={classes.productPerCategoryTitle}
+              >
+                {categoryName}
+              </Typography>
+            </div>
+            <Grid item xs={12}>
+              <Grid container justifyContent="flex-start" spacing={4}>
+                {productOneCategory.map((product) => (
+                  <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                    <Product product={product} onAddToCart={onAddToCart} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </div>
+
+          <Button onClick={() => { handlePage(-1) }}>Previous</Button>
+          <Button onClick={() => { handlePage(1) }}>Next</Button>
+          <Pagination slug={slug} limit={limit} />
+        </Container >
       )}
     </main>
   );
