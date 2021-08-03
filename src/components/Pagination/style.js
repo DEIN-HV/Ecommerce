@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
+        paddingTop: 20,
     },
     ulPage: {
         display: 'flex',
@@ -13,16 +14,32 @@ export default makeStyles((theme) => ({
     },
     liPage: {
         padding: 10,
-        border: '1px solid black',
+        width: 18,
+        border: '1px solid #ababab',
+        borderRadius: 4,
+        backgroundColor: 'transparent',
+
+        color: '#787878',
+        fontVariantNumeric: 'inherit',
+        fontWeight: '700',
+        textAlign: 'center',
         cursor: 'pointer',
+
+        '&:hover': {
+            backgroundColor: '#ababab',
+            color: 'white',
+        }
     },
 
     liPageActive: {
         padding: 10,
-        border: '1px solid black',
+        borderRadius: 4,
+        width: 18,
+        textAlign: 'center',
         cursor: 'pointer',
-        backgroundColor: 'blue',
+        backgroundColor: '#5356fc',
         color: 'white',
-    }
+        fontWeight: '700',
+    },
 
 }))

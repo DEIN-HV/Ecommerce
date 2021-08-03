@@ -21,7 +21,7 @@ const Products = ({
   const [productOneCategory, setProductOneCategory] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(1);
 
   const { slug } = useParams();
 
