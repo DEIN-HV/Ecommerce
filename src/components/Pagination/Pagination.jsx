@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
 
 import useStyle from "./style";
@@ -14,8 +15,10 @@ const Pagination = ({
   const classes = useStyle();
 
   const [dataLength, setDataLength] = useState(0);
-  const [limitPage, setLimitPage] = useState(2);
   const [pageDisplay, setPageDisplay] = useState([]);
+  const [pageNumber, setPageNumber] = useState([]);
+
+  console.log(currentPage);
 
   const fetchProductOneCategory = async () => {
     const { data } = await commerce.products.list({
@@ -26,46 +29,49 @@ const Pagination = ({
 
   const totalPage = Math.ceil(dataLength / limit);
 
-  const pages = [];
-  for (let i = 1; i <= totalPage; i++) {
-    pages.push(i);
-  }
-
   const handlePageDisplay = (currentPage) => {
-    const arrayPage = []
+    const pages = [];
+    for (let i = 1; i <= totalPage; i++) {
+      pages.push(i);
+    }
+    setPageNumber(pages);
+
+    const arrayPage = [];
     if (currentPage <= 3) {
-      pages.map(page => {
-        if (page <= 5) return (arrayPage.push(page))
-      })
-    }
-
-    else if (currentPage >= (totalPage - 2)) {
-      pages.map(page => {
-        if (page >= (totalPage - 5) + 1) return (arrayPage.push(page))
-      })
-    }
-
-    else {
-      pages.map(page => {
-        if (page >= currentPage - 2 && page <= currentPage + 2) return (arrayPage.push(page))
-      })
+      pageNumber.map((page) => {
+        if (page <= 5) return arrayPage.push(page);
+      });
+    } else if (currentPage >= totalPage - 2) {
+      pageNumber.map((page) => {
+        if (page >= totalPage - 5 + 1) return arrayPage.push(page);
+      });
+    } else {
+      pageNumber.map((page) => {
+        if (page >= currentPage - 2 && page <= currentPage + 2)
+          return arrayPage.push(page);
+      });
     }
     setPageDisplay(arrayPage);
-  }
+    console.log(arrayPage);
+  };
+
   useEffect(() => {
     handlePageDisplay(currentPage);
-  }, [currentPage])
+  }, [currentPage]);
 
   const RenderPageNumbers = () => (
     <ul className={classes.ulPage}>
-      <Button disabled={currentPage === 1 ? true : false}
+      <Button
+        disabled={currentPage === 1 ? true : false}
         variant="outlined"
-        onClick={() => { onChangePage(-1) }}
+        onClick={() => {
+          onChangePage(-1);
+        }}
       >
         Prev
       </Button>
 
-      {currentPage > 3 &&
+      {/* {currentPage > 3 && (
         <li
           className={classes.liPage}
           key={0}
@@ -75,7 +81,7 @@ const Pagination = ({
         >
           ...
         </li>
-      }
+      )} */}
       {pageDisplay.map((page) => (
         <li
           className={
@@ -90,7 +96,7 @@ const Pagination = ({
         </li>
       ))}
 
-      {currentPage < (totalPage - 2) &&
+      {/* {currentPage < totalPage - 2 && (
         <li
           className={classes.liPage}
           key={0}
@@ -100,11 +106,15 @@ const Pagination = ({
         >
           ...
         </li>
-      }
+      )} */}
 
-      <Button disabled={currentPage === totalPage ? true : false}
+      <Button
+        disabled={currentPage === totalPage ? true : false}
         variant="outlined"
-        onClick={() => { onChangePage(1) }}>
+        onClick={() => {
+          onChangePage(1);
+        }}
+      >
         Next
       </Button>
     </ul>

@@ -174,7 +174,7 @@ const App = () => {
                         <ProductDetail onAddToCart={hanleAddCart} />
                     </Route>
 
-                    <Route exact path="/:slug">
+                    <Route exact path="/:slug/">
                         <Products products={products}
                             onAddToCart={hanleAddCart}
                             categories={categories}

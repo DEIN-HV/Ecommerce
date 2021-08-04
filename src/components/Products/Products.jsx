@@ -5,7 +5,7 @@ import useStyle from "./style";
 import FilterProduct from "../FilterProduct/FilterProduct";
 import { Category } from "@material-ui/icons";
 import Spinner from "../Spinner/Spinner";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
 import Pagination from "../Pagination/Pagination";
 
