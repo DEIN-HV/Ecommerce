@@ -1,24 +1,21 @@
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
+import Spinner from "../Spinner/Spinner";
 
 import useStyle from "./style";
 
 const Pagination = ({
-  slug,
   limit,
   onChangePageNumber,
   currentPage,
   onChangePage,
+  slug
 }) => {
   const classes = useStyle();
-
   const [dataLength, setDataLength] = useState(0);
   const [pageDisplay, setPageDisplay] = useState([]);
-  const [pageNumber, setPageNumber] = useState([]);
-
-  console.log(currentPage);
 
   const fetchProductOneCategory = async () => {
     const { data } = await commerce.products.list({
@@ -28,25 +25,25 @@ const Pagination = ({
   };
 
   const totalPage = Math.ceil(dataLength / limit);
+  console.log(totalPage);
 
   const handlePageDisplay = (currentPage) => {
     const pages = [];
     for (let i = 1; i <= totalPage; i++) {
       pages.push(i);
     }
-    setPageNumber(pages);
 
     const arrayPage = [];
     if (currentPage <= 3) {
-      pageNumber.map((page) => {
+      pages.map((page) => {
         if (page <= 5) return arrayPage.push(page);
       });
     } else if (currentPage >= totalPage - 2) {
-      pageNumber.map((page) => {
+      pages.map((page) => {
         if (page >= totalPage - 5 + 1) return arrayPage.push(page);
       });
     } else {
-      pageNumber.map((page) => {
+      pages.map((page) => {
         if (page >= currentPage - 2 && page <= currentPage + 2)
           return arrayPage.push(page);
       });
@@ -57,9 +54,10 @@ const Pagination = ({
 
   useEffect(() => {
     handlePageDisplay(currentPage);
-  }, [currentPage]);
+  }, [currentPage, dataLength]);
 
   const RenderPageNumbers = () => (
+
     <ul className={classes.ulPage}>
       <Button
         disabled={currentPage === 1 ? true : false}
@@ -71,17 +69,6 @@ const Pagination = ({
         Prev
       </Button>
 
-      {/* {currentPage > 3 && (
-        <li
-          className={classes.liPage}
-          key={0}
-          onClick={() => {
-            onChangePage(-1);
-          }}
-        >
-          ...
-        </li>
-      )} */}
       {pageDisplay.map((page) => (
         <li
           className={
@@ -95,18 +82,6 @@ const Pagination = ({
           {page}
         </li>
       ))}
-
-      {/* {currentPage < totalPage - 2 && (
-        <li
-          className={classes.liPage}
-          key={0}
-          onClick={() => {
-            onChangePage(1);
-          }}
-        >
-          ...
-        </li>
-      )} */}
 
       <Button
         disabled={currentPage === totalPage ? true : false}
@@ -123,6 +98,8 @@ const Pagination = ({
   useEffect(() => {
     fetchProductOneCategory();
   }, [slug]);
+
+  if (pageDisplay.length == 0) return "loading...";
 
   return (
     <div className={classes.pagination}>

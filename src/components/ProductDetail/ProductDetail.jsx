@@ -28,9 +28,9 @@ const ProductDetail = ({ onAddToCart }) => {
       description,
       inventory: inventory.available,
     });
-
-    //console.log("fetchProduct", product);
   };
+
+  const classes = useStyle();
 
   const handleQuantity = (type) => {
     if (type === "increase" && quantity < 10) setQuantity(quantity + 1);
@@ -38,13 +38,10 @@ const ProductDetail = ({ onAddToCart }) => {
   };
 
   useEffect(() => {
-    //const id = window.location.pathname.split("/");
     fetchProduct(id);
   }, []);
 
-  const classes = useStyle();
-
-  if (!product) return "loading...";
+  if (Object.keys(product).length == 0) return <Spinner />;
   return (
     <>
       <div className={classes.toolBar} />

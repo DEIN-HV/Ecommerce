@@ -5,7 +5,7 @@ const Spinner = () => {
   const classes = useStyle();
 
   return (
-    <div className="classes.spinner">
+    <div className={classes.spinner}>
       <CircularProgress />
     </div>
   );

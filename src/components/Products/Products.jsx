@@ -5,9 +5,11 @@ import useStyle from "./style";
 import FilterProduct from "../FilterProduct/FilterProduct";
 import { Category } from "@material-ui/icons";
 import Spinner from "../Spinner/Spinner";
-import { Link, Redirect, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
 import Pagination from "../Pagination/Pagination";
+import ProductPerPage from "./ProductPerPage";
+import ProductPerCategory from "./ProductPerCategory";
 
 const Products = ({
   products,
@@ -25,14 +27,15 @@ const Products = ({
 
   const { slug } = useParams();
 
+  //get product per page
   const FetchProductOneCategory = async () => {
+    setProductOneCategory([]);
     const { data } = await commerce.products.list({
       category_slug: slug,
       limit: limit,
       page: currentPage,
     });
     setProductOneCategory(data);
-    //console.log(data.length);
   };
 
   //get category name by slug
@@ -43,6 +46,7 @@ const Products = ({
   };
 
   const handleChangePageNumber = (pageNumber) => {
+    setProductOneCategory([]);
     setCurrentPage(pageNumber);
   };
 
@@ -57,8 +61,6 @@ const Products = ({
     }
   }, [slug, currentPage]);
 
-  if (!prouductPerCategory) return <Spinner />;
-  if (!productOneCategory || !prouductPerCategory) return <Spinner />;
 
   return (
     <main className={classes.content}>
@@ -73,34 +75,9 @@ const Products = ({
 
       {/* View product per category */}
       {isLoadSceen && !slug && (
-        <Container>
-          {prouductPerCategory.map((category) => (
-            <div key={category.id}>
-              <div className={classes.productPerCategory}>
-                <Typography
-                  variant="h5"
-                  className={classes.productPerCategoryTitle}
-                >
-                  {category.name}{" "}
-                </Typography>
-
-                <Link to={`/${category.slug}`} className={classes.viewLink}>
-                  View all ＞
-                </Link>
-              </div>
-
-              <Grid item xs={12}>
-                <Grid container justifyContent="flex-start" spacing={4}>
-                  {category.productData.map((product) => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                      <Product product={product} onAddToCart={onAddToCart} />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </div>
-          ))}
-        </Container>
+        <ProductPerCategory
+          prouductPerCategory={prouductPerCategory}
+          onAddToCart={onAddToCart} />
       )}
 
       {/* View product by a category */}
@@ -115,17 +92,10 @@ const Products = ({
                 {categoryName}
               </Typography>
             </div>
-            <Grid item xs={12}>
-              <Grid container justifyContent="flex-start" spacing={4}>
-                {productOneCategory.map((product) => (
-                  <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                    <Product product={product} onAddToCart={onAddToCart} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
+            <ProductPerPage
+              productOneCategory={productOneCategory}
+              onAddToCart={onAddToCart} />
           </div>
-
           <Pagination
             slug={slug}
             limit={limit}
