@@ -4,6 +4,7 @@ import { commerce } from './lib/commerce';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
+import ResponsiveDrawer from './components/Sidebar/sample';
 
 const App = () => {
 
@@ -40,6 +41,7 @@ const App = () => {
     const [categories, SetCategories] = useState([]);
     const [isLoadSceen, setIsLoadSceen] = useState(true);
     const [prouductPerCategory, setProuductPerCategory] = useState([]);
+    const [mobileOpen, setMobileOpen] = useState(false)
 
     useEffect(() => {
         // fetchData();
@@ -137,12 +139,18 @@ const App = () => {
         setIsLoadSceen(true);
     }
 
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+        console.log(mobileOpen);
+    }
+
     return (
         <BrowserRouter>
             <div>
                 <Navbar total_items={cart.total_items}
                     isSignedIn={isSignedIn} user={user}
-                    onRefreshProduct={handleClearSearch} />
+                    onRefreshProduct={handleClearSearch}
+                    onDrawerToggle={handleDrawerToggle} />
                 <Switch>
                     <Route exact path="/">
                         <Products products={products}
@@ -150,7 +158,9 @@ const App = () => {
                             categories={categories}
                             isLoadSceen={isLoadSceen}
                             setIsLoadSceen={setIsLoadSceen}
-                            prouductPerCategory={prouductPerCategory} />
+                            prouductPerCategory={prouductPerCategory}
+                            onDrawerToggle={handleDrawerToggle}
+                            mobileOpen={mobileOpen} />
                     </Route>
 
                     <Route exact path="/signin">
@@ -180,7 +190,8 @@ const App = () => {
                             categories={categories}
                             isLoadSceen={isLoadSceen}
                             setIsLoadSceen={setIsLoadSceen}
-                            prouductPerCategory={prouductPerCategory} />
+                            prouductPerCategory={prouductPerCategory}
+                            mobileOpen={mobileOpen} />
                     </Route>
                 </Switch>
                 <Footer />

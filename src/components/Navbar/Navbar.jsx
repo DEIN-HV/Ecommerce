@@ -5,10 +5,9 @@ import {
   IconButton,
   Badge,
   MenuItem,
-  Menu,
   Typography,
 } from "@material-ui/core";
-import { ShoppingCart } from "@material-ui/icons";
+import { ShoppingCart, Menu } from "@material-ui/icons";
 import logo from "../../assets/commerce.png";
 import useStyles from "./style";
 import { useEffect } from "react";
@@ -20,7 +19,7 @@ const Navbar = ({
   isSignedIn,
   user,
   onRefreshProduct,
-  setSearchResult,
+  onDrawerToggle
 }) => {
   const classes = useStyles();
 
@@ -37,6 +36,15 @@ const Navbar = ({
     <>
       <AppBar className={classes.appBar} position="fixed" color="inherit">
         <Toolbar>
+          {/* open sidebar menu in mobile mode */}
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={onDrawerToggle}
+            className={classes.menuButton}
+          ><Menu /></IconButton>
+
           <Typography
             component={Link}
             to="/"
@@ -53,6 +61,8 @@ const Navbar = ({
             />
             DH Gaming Gear
           </Typography>
+
+
 
           <div className={classes.grow}></div>
 

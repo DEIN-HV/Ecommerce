@@ -4,12 +4,16 @@ import useStyle from "./style";
 import Spinner from '../Spinner/Spinner';
 import Product from '../Product/Product';
 import { Link } from "react-router-dom";
+import Sidebar from '../Sidebar/Sidebar';
 
 function ProductPerCategory({ prouductPerCategory, onAddToCart }) {
     const classes = useStyle();
     if (prouductPerCategory.length == 0) return <Spinner />;
     return (
-        <Container>
+        <>
+
+
+
             {prouductPerCategory.map((category) => (
 
                 <div key={category.id}>
@@ -21,8 +25,9 @@ function ProductPerCategory({ prouductPerCategory, onAddToCart }) {
                             {category.name}{" "}
                         </Typography>
 
-                        <Link to={`/${category.slug}`} className={classes.viewLink}>
+                        <Link id={category.slug} to={`/${category.slug}`} className={classes.viewLink}>
                             View all ＞
+                            {/* <h3 ref={scrollToCategory}>Scroll to category</h3> */}
                         </Link>
                     </div>
 
@@ -37,7 +42,8 @@ function ProductPerCategory({ prouductPerCategory, onAddToCart }) {
                     </Grid>
                 </div>
             ))}
-        </Container>
+
+        </>
     )
 }
 

@@ -74,44 +74,44 @@ const FilterProduct = ({ categories, onAddToCart, isLoadSceen, setIsLoadSceen })
 
     return (
         <div className={classes.filterBar}>
-            <Container>
-                <Paper component="form" className={classes.root} onSubmit={handleSearch}>
-                    <SelectCategory
-                        categories={[defaultCategory, ...categories]}
-                        selectedCategory={selectedCategory}
-                        onChange={handleSelectChange} />
-                    <InputBase
-                        className={classes.input}
-                        onChange={handleInputChange}
-                        placeholder="Search for product"
-                        inputProps={{ "aria-label": "Search for a product" }}
-                    />
-                    <IconButton type="submit">
-                        <Search />
-                    </IconButton>
-                </Paper>
 
-                {/* result search message */}
-                {resultMessage && !isLoadSceen &&
-                    <Typography variant="h5"
-                        className={classes.resultMessage}>
-                        {resultMessage}
-                    </Typography>
-                }
+            <Paper component="form" className={classes.root} onSubmit={handleSearch}>
+                <SelectCategory
+                    categories={[defaultCategory, ...categories]}
+                    selectedCategory={selectedCategory}
+                    onChange={handleSelectChange} />
+                <InputBase
+                    className={classes.input}
+                    onChange={handleInputChange}
+                    placeholder="Search for product"
+                    inputProps={{ "aria-label": "Search for a product" }}
+                />
+                <IconButton type="submit">
+                    <Search />
+                </IconButton>
+            </Paper>
 
-                {/* Load search result */}
-                {!isLoadSceen &&
-                    <Grid item xs={12} className={classes.searchReult}>
-                        <Grid container justifyContent="left" spacing={4}>
-                            {searchResult.map((product) => (
-                                <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                                    <Product product={product} onAddToCart={onAddToCart} />
-                                </Grid>
-                            ))}
-                        </Grid>
+            {/* result search message */}
+            {resultMessage && !isLoadSceen &&
+                <Typography variant="h5"
+                    className={classes.resultMessage}>
+                    {resultMessage}
+                </Typography>
+            }
+
+            {/* Load search result */}
+            {!isLoadSceen &&
+                <Grid item xs={12} className={classes.searchReult}>
+                    <Grid container justifyContent="left" spacing={4}>
+                        {searchResult.map((product) => (
+                            <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                                <Product product={product} onAddToCart={onAddToCart} />
+                            </Grid>
+                        ))}
                     </Grid>
-                }
-            </Container>
+                </Grid>
+            }
+
         </div>
     )
 }

@@ -12,6 +12,15 @@ export default makeStyles((theme) => ({
         flexGrow: 1,
     },
 
+    wrapper: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
+
+    wrapperContent: {
+        // width: '100%',
+    },
+
     productPerCategory: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -34,6 +43,7 @@ export default makeStyles((theme) => ({
         fontWeight: 700,
         color: 'white',
         cursor: 'pointer',
+        textDecoration: 'none',
 
         '&:hover': {
             opacity: 0.5,

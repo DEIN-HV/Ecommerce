@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Container, Grid, Typography } from "@material-ui/core";
 import Product from "../Product/Product";
 import useStyle from "./style";
 import FilterProduct from "../FilterProduct/FilterProduct";
 import { Category } from "@material-ui/icons";
 import Spinner from "../Spinner/Spinner";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { commerce } from "../../lib/commerce";
 import Pagination from "../Pagination/Pagination";
 import ProductPerPage from "./ProductPerPage";
 import ProductPerCategory from "./ProductPerCategory";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Products = ({
   products,
@@ -18,14 +19,19 @@ const Products = ({
   isLoadSceen,
   setIsLoadSceen,
   prouductPerCategory,
+  mobileOpen,
+  onDrawerToggle
 }) => {
   const classes = useStyle();
   const [productOneCategory, setProductOneCategory] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(1);
+
+  const limit = 8;
 
   const { slug } = useParams();
+
+  const scrollToCategory = useRef(null);
 
   //get product per page
   const FetchProductOneCategory = async () => {
@@ -66,45 +72,55 @@ const Products = ({
     <main className={classes.content}>
       <div className={classes.toolbar} />
 
-      <FilterProduct
-        categories={categories}
-        onAddToCart={onAddToCart}
-        isLoadSceen={isLoadSceen}
-        setIsLoadSceen={setIsLoadSceen}
-      />
+      {/* <button onClick={handleScrollToCategory}>Scroll</button> */}
 
-      {/* View product per category */}
-      {isLoadSceen && !slug && (
-        <ProductPerCategory
-          prouductPerCategory={prouductPerCategory}
-          onAddToCart={onAddToCart} />
-      )}
+      <div className={classes.wrapper}>
+        <Sidebar categories={categories} slug={slug} mobileOpen={mobileOpen} onDrawerToggle={onDrawerToggle} />
 
-      {/* View product by a category */}
-      {isLoadSceen && slug && (
-        <Container>
-          <div key={slug}>
-            <div className={classes.productPerCategory}>
-              <Typography
-                variant="h5"
-                className={classes.productPerCategoryTitle}
-              >
-                {categoryName}
-              </Typography>
-            </div>
-            <ProductPerPage
-              productOneCategory={productOneCategory}
-              onAddToCart={onAddToCart} />
-          </div>
-          <Pagination
-            slug={slug}
-            limit={limit}
-            currentPage={currentPage}
-            onChangePageNumber={handleChangePageNumber}
-            onChangePage={handleChangePage}
+        <Container className={classes.wrapperContent}>
+          <FilterProduct
+            categories={categories}
+            onAddToCart={onAddToCart}
+            isLoadSceen={isLoadSceen}
+            setIsLoadSceen={setIsLoadSceen}
           />
+
+          {/* View product per category */}
+          {isLoadSceen && !slug && (
+            <ProductPerCategory
+              prouductPerCategory={prouductPerCategory}
+              onAddToCart={onAddToCart} />
+          )}
+
+          {/* View product by a category */}
+          {isLoadSceen && slug && (
+            <>
+              <div key={slug}>
+                <div className={classes.productPerCategory}>
+                  <Typography
+                    variant="h5"
+                    className={classes.productPerCategoryTitle}
+                  >
+                    {categoryName}
+                  </Typography>
+                </div>
+                <ProductPerPage
+                  productOneCategory={productOneCategory}
+                  onAddToCart={onAddToCart} />
+              </div>
+              <Pagination
+                slug={slug}
+                limit={limit}
+                currentPage={currentPage}
+                onChangePageNumber={handleChangePageNumber}
+                onChangePage={handleChangePage}
+              />
+            </>
+          )}
         </Container>
-      )}
+      </div>
+
+
     </main>
   );
 };

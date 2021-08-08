@@ -1,11 +1,10 @@
 import { makeStyles, alpha } from '@material-ui/core/styles';
 
-const drawerWidth = 0;
-
 export default makeStyles((theme) => ({
     footer: {
+        zIndex: theme.zIndex.drawer + 1,
         width: '100%',
-        padding: 10,
+        //padding: 10,
         height: 80,
         display: 'flex',
         justifyContent: 'center',

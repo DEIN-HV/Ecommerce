@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
+        zIndex: theme.zIndex.drawer + 1,
     },
     link: {
         fontSize: 20,
@@ -73,6 +74,12 @@ export default makeStyles((theme) => ({
         width: '100%',
         [theme.breakpoints.up('md')]: {
             width: '20ch',
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
         },
     },
 }));
